@@ -64,50 +64,6 @@ const images = [
   },
 ];
 
-
-// function createMarkup(arr) {
-//   return arr.map(image => `
-//     <li class="gallery-item">
-//       <a class="gallery-link" href="${image.original}">
-//         <img
-//           class="gallery-image"
-//           src="${image.preview}"
-//           data-source="${image.original}"
-//           alt="${image.description}"
-//         />
-//       </a>
-//     </li>
-//   `).join("");
-// }
-
-
-// const container = document.querySelector(".images");
-
-// container.innerHTML = createMarkup(images);
-
-// const galleryItems = document.querySelectorAll(".gallery-item");
-// galleryItems.forEach(item => {
-//   item.addEventListener("click", handleClick);
-// });
-
-
-
-// function handleClick(event) {
-//   event.preventDefault(); 
-//   const selectedImgSrc = event.target.dataset.source; 
-//   const selectedImgAlt = event.target.alt; 
-  
-//   const instance = basicLightbox.create(`
-//     <div class="modal">
-//       <img src="${selectedImgSrc}" alt="${selectedImgAlt}">
-//     </div>
-//   `);
-
-//   instance.show();
-// }
-// =========================================================================
-
-
 function createGalleryItem(image) {
   return `
     <li class="gallery-item">
@@ -127,26 +83,12 @@ const gallery = document.querySelector('ul.gallery');
 
 images.forEach(image => {
   const galleryItemHtml = createGalleryItem(image);
-  gallery.innerHTML += galleryItemHtml;
+  gallery.insertAdjacentHTML('beforeend', galleryItemHtml);  
 });
-
-const galleryLinks = document.querySelectorAll('.gallery-link');
-galleryLinks.forEach(link => {
-  link.addEventListener('click', function(event) {
-    event.preventDefault();
-  });
-});
-
 
 gallery.addEventListener("click", function (event) {
-  console.log(event.target);
-});
-
-gallery.addEventListener("click", selectImg);
-
-function selectImg(event) {
   event.preventDefault();
-  
+
   const target = event.target.closest('.gallery-image');
   if (!target) {
     return;
@@ -162,12 +104,11 @@ function selectImg(event) {
   `);
 
   instance.show();
-}
+});
 
-const galleryImages = document.querySelectorAll('.gallery-image');
-
-  galleryImages.forEach(image => {
-    image.addEventListener('mouseenter', function() {
-      this.style.cursor = 'pointer'; 
-    });
-  });
+gallery.addEventListener("mouseover", function (event) {
+  const target = event.target.closest('.gallery-image');
+  if (target) {
+    target.style.cursor = 'pointer';
+  }
+});
